@@ -1,0 +1,174 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <title>Cadastro de Cliente</title>
+
+    <style type="text/css">
+         table  { text-align: left; }
+        .button { width: 100px; }
+    </style>
+
+</head>
+<body>
+    <!--<form id="teste">
+        <fieldset id="fild" style="width:200px">
+            <legend><b>Cadastro de Cliente</b></legend>
+            <table width="100%" id="tableForm" border="0">
+                <tr>
+                    <th>Código:</th>
+                    <th>Nome:</th>
+                </tr>
+                <tr>
+                    <td><input type="text" name="codigo" id="codigo" tabindex="1" maxlength="40" size="5"></td>
+                    <td><input type="text" name="nome" id="nome" tabindex="2" maxlength="40" size="75"></td>
+                </tr>
+            </table>
+            <table width="100%" id="tableForm" border="0">
+                <tr>
+                    <th>Logradouro:</th>
+                    <th>Nº:</th>
+                </tr>
+                <tr>
+                    <td><input type="text" name="logradouro" id="logradouro" tabindex="3" maxlength="40" size="78"></td>
+                    <td><input type="text" name="numero" id="numero" tabindex="4" maxlength="40" size="2"></td>
+                </tr>
+            </table>
+            <table width="100%" id="tableForm" border="0">
+                <tr>
+                    <th>Bairro:</th>
+                    <th>CEP:</th>
+                    <th>Cidade:</th>
+                </tr>
+                <tr>
+                    <td><input type="text" name="bairro" id="bairro" tabindex="5" maxlength="40" size="40"></td>
+                    <td><input type="text" name="cep" id="cep" tabindex="6" maxlength="40" size="10"></td>
+                    <td><input type="text" name="cidade" id="cidade" tabindex="7" maxlength="40" size="25"></td>
+                </tr>
+            </table>
+            <table width="100%" id="tableForm" border="0">
+                <tr>
+                    <th>Telefone:</th>
+                    <th>Email:</th>
+                </tr>
+                <tr>
+                    <td><input type="text" name="telefone" id="telefone" tabindex="8" maxlength="40" size="10"></td>
+                    <td><input type="text" name="email" id="email" tabindex="9" maxlength="40" size="70"></td>
+                </tr>
+            </table><br />
+            <table width="100%" id="tableForm" border="0" style="text-align: center; ">
+                <tr>
+                    <td>
+                        <input type="button" class="button" id="btnIncluir" name="btnIncluir" value="Incluir" tabindex="10">
+                        <input type="button" class="button" id="btnProcurar" name="btnProcurar" value="Procurar" tabindex="11">
+                        <input type="button" class="button" id="btnLimpar" name="btnLimpar" value="Limpar" tabindex="12">
+                        <input type="button" class="button" id="btnSair" name="btnSair" value="Sair" tabindex="13">
+                    </td>
+                </tr>
+            </table>
+        </fieldset>
+        <br />
+        <br />
+        <h1>Cricketer Details</h1>
+
+        <table class="src">
+            <tr><th>Name</th><th>Country</th></tr>
+            <tr>
+                <td><div id="Name">Sachin</div></td>
+                <td><div id="Country">India</div></td>
+            </tr>
+        </table>
+
+        <div class="central">
+            <button type="button" onclick="get()">Update Details </button>
+        </div>
+
+    </form>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+<script type="text/javascript">
+
+    document.getElementById('codigo').focus();
+
+    function get() {
+        ////inicio o jquery
+        //$(document).ready(function () {
+        //    // inicio uma requisição
+        //    $.ajax({
+        //        // url para o arquivo json.php
+        //        url: "http://www.tutorialspoint.com/json/data.json",
+        //        // dataType json
+        //        dataType: "json",
+        //        // função para de sucesso
+        //        success: function (data) {
+        //            // vamos gerar um html e guardar nesta variável
+        //            var html = "";
+
+        //            // executo este laço para ecessar os itens do objeto javaScript
+        //            for ($i = 0; $i < data.length; $i++) {
+        //                // coloco o nome e sobre nome
+        //                html += "<strong>Nome:</strong> " + data[$i].nome + " " + data[$i].sobreNome;
+        //                // coloco a cidade
+        //                html += " <strong>Cidade:</strong> " + data[$i].cidade
+        //                // e por ultimo dou uma quebra de linha
+        //                html += "<br />";
+        //            }//fim do laço
+
+        //            //coloco a variável html na tela
+        //            $('body').html(html);
+        //        }
+        //    });//termina o ajax
+        //});//termina o jquery
+
+        var data_file = "http://www.tutorialspoint.com/json/data.json";
+        var http_request = new XMLHttpRequest();
+
+        http_request = new XMLHttpRequest();
+
+        http_request.onreadystatechange = function () {
+
+            if (http_request.readyState == 4) {
+                // Javascript function JSON.parse to parse JSON data
+                var jsonObj = JSON.parse(http_request.responseText);
+
+                // jsonObj variable now contains the data structure and can
+                // be accessed as jsonObj.name and jsonObj.country.
+                document.getElementById("Name").innerHTML = jsonObj.name;
+                document.getElementById("Country").innerHTML = jsonObj.country;
+            }
+        }
+
+        http_request.open("GET", data_file, true);
+        http_request.send();
+    }
+
+    function limpar() {
+        var limpar = window.open(window.location, "_top");
+        limpar.close();        
+    }
+
+    function fechar() {
+        resposta = confirm("Deseja realmente fechar a aplicação?");
+        if (resposta) {
+            console.log('sim');
+            teste.style.visibility = 'hidden';
+            window.document.write("Aplicação foi encerrada!");
+        }            
+    }
+
+    var btnIncluir = document.getElementById("btnIncluir");
+    btnIncluir.addEventListener("click", get);
+
+    var btnProcurar = document.getElementById("btnProcurar");
+    btnProcurar.addEventListener("click", limpar);
+
+    var btnLimpar = document.getElementById("btnLimpar");
+    btnLimpar.addEventListener("click", limpar);
+
+    var btnSair = document.getElementById("btnSair");
+    btnSair.addEventListener("click", fechar);    
+
+</script>-->
+
+    <p>TESTE</p>
+</body>
+</html>

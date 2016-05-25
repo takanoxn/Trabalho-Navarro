@@ -1,0 +1,390 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <title>Cadastro de Cliente</title>
+    <style type="text/css">
+        table {
+            text-align: left;
+        }
+
+        input[type="button"] {
+            width: 100px;
+            height: 30px;
+            border-color: rgb(0,122,204);
+            background-color: rgb(0,122,204);
+            color: white;
+            font-size: large;
+        }
+
+        input[type="button"]:disabled {
+            width: 100px;
+            height: 30px;
+            border-color: rgb(224,224,224);
+            background-color: rgb(224,224,224);
+            color: white;
+            font-size: large;
+        }
+
+        input[type="button"]:hover {
+            opacity: 0.8;
+        }
+
+        input[type="text"] { 
+            text-transform: uppercase;
+        }
+
+        .titulo {
+            font-size: larger;
+        }
+    </style>
+</head>
+<body>
+<form id="formulario">
+    <table width="100%" height="800px">
+        <tr align="center">
+            <td align="center">
+                <fieldset id="fild" style="width:200px;">
+                    <legend class="titulo"><b>Cadastro de Cliente</b></legend>
+                    <fieldset>
+                        <table width="100%">
+                            <tr>
+                                <th>Código:</th>
+                                <th>Nome:</th>
+                            </tr>
+                            <tr>
+                                <td><input type="text" name="codigo" id="codigo" tabindex="1" maxlength="40" size="5"></td>
+                                <td><input type="text" name="nome" id="nome" tabindex="2" maxlength="40" size="75"></td>
+                            </tr>
+                        </table>
+                        <table width="100%" id="tableForm" border="0">
+                            <tr>
+                                <th>Logradouro:</th>
+                                <th>Nº:</th>
+                            </tr>
+                            <tr>
+                                <td><input type="text" name="logradouro" id="logradouro" tabindex="3" maxlength="40" size="78"></td>
+                                <td><input type="text" name="numero" id="numero" tabindex="4" maxlength="40" size="2"></td>
+                            </tr>
+                        </table>
+                        <table width="100%" id="tableForm" border="0">
+                            <tr>
+                                <th>Bairro:</th>
+                                <th>CEP:</th>
+                                <th>Cidade:</th>
+                            </tr>
+                            <tr>
+                                <td><input type="text" name="bairro" id="bairro" tabindex="5" maxlength="40" size="40"></td>
+                                <td><input type="text" name="cep" id="cep" tabindex="6" maxlength="40" size="10"></td>
+                                <td><input type="text" name="cidade" id="cidade" tabindex="7" maxlength="40" size="25"></td>
+                            </tr>
+                        </table>
+                        <table width="100%" id="tableForm" border="0">
+                            <tr>
+                                <th>Telefone:</th>
+                                <th>Email:</th>
+                            </tr>
+                            <tr>
+                                <td><input type="text" name="telefone" id="telefone" tabindex="8" maxlength="40" size="10"></td>
+                                <td><input type="text" name="email" id="email" tabindex="9" maxlength="40" size="70"></td>
+                            </tr>
+                        </table>
+                    </fieldset>
+                    <br/>
+                    <fieldset>
+                        <table width="100%" id="tableForm" border="0" style="text-align: center; ">
+                            <tr>
+                                <td>
+                                    <input type="button" class="button" id="btnIncluir" name="btnIncluir" value="Incluir" tabindex="10" disabled>
+                                    <input type="button" class="button" id="btnAlterar" name="btnAlterar" value="Alterar" tabindex="11" disabled>
+                                    <input type="button" class="button" id="btnExcluir" name="btnExcluir" value="Excluir" tabindex="11" disabled>
+                                    <input type="button" class="button" id="btnLimpar"  name="btnLimpar"  value="Limpar"  tabindex="12">
+                                    <input type="button" class="button" id="btnSair"    name="btnSair"    value="Sair"    tabindex="13">
+                                </td>
+                            </tr>
+                        </table>
+                    </fieldset>
+                </fieldset>
+            </td>
+        </tr>
+    </table>
+</form>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+<script type="text/javascript">
+
+    // Coloca o foco no campo do codigo.
+    document.getElementById("codigo").focus();
+
+    // Função que verifica se todos os campos obrigatórios estão preenchidos.
+    function verificaCamposObrigatorio() {
+
+        // Verifica se o campo Código esta preenchido.
+        if (document.getElementById("codigo").value.trim() == "") {
+
+            // Avisa o usuário que o campo é obrigatório.
+            alert("Atenção. É obrigatório preencher o campo \"Código\". Verifique!");
+
+            // Coloca o foco no campo que tem que ser preenchido.
+            document.getElementById("codigo").focus();
+
+            // Retorna com erro.
+            return false;
+
+        // Verifica se o campo Nome esta preenchido.
+        } else if (document.getElementById("nome").value.trim() == "") {
+
+            // Avisa o usuário que o campo é obrigatório.
+            alert("Atenção. É obrigatório preencher o campo \"Nome\". Verifique!");
+
+            // Coloca o foco no campo que tem que ser preenchido.
+            document.getElementById("nome").focus();
+
+            // Retorna com erro.
+            return false;
+        }
+
+        // Retorna sem erros.
+        return true;
+    }
+
+    // Função que executa o método GetCliente() da API.
+    function get() {
+
+        // Monta o caminho do controller.
+        var data_file = "http://localhost:65149/api/cliente/";
+        
+        // Cria o objeto para fazer a requisição HTTP com a API.
+        var http_request = new XMLHttpRequest();
+
+        // Configura a requisição com o método GET, o Controller e determina que vai ser assíncrona.
+        http_request.open("GET", data_file + document.getElementById("codigo").value, true);
+
+        // Faz a requisição.
+        http_request.send();
+        
+        // Armazena a função que processará a resposta do servidor.
+        http_request.onreadystatechange = function () {
+
+            // Verifica se a requisição foi concuida.
+            if (http_request.readyState == 4) {
+
+                // Verifica se retornou dados da API.
+                if (http_request.responseText) {                    
+
+                    // Confirma com o usuário se deseja alterar ou excluir o cliente.
+                    resposta = confirm("Já existe um cliente cadastrado com o código \"" + document.getElementById("codigo").value + "\". Deseja alterar/excluir?");
+
+                    // Verifica se o usuário confirmou.
+                    if (resposta) {
+
+                        // Converte a resposta JSON em um objeto.
+                        var jsonObj = JSON.parse(http_request.responseText);
+
+                        // Mostra os dados na tela.
+                        document.getElementById("nome").value       = jsonObj.nome;
+                        document.getElementById("logradouro").value = jsonObj.endereco.logradouro;
+                        document.getElementById("numero").value     = jsonObj.endereco.numero;
+                        document.getElementById("bairro").value     = jsonObj.endereco.bairro;
+                        document.getElementById("cep").value        = jsonObj.endereco.cep;
+                        document.getElementById("cidade").value     = jsonObj.endereco.cidade;
+                        document.getElementById("telefone").value   = jsonObj.telefone;
+                        document.getElementById("email").value      = jsonObj.email;
+
+                        // Habilita os botões Alterar e Excluir e Desabilita o Incluir.
+                        document.getElementById("btnAlterar").disabled = false;
+                        document.getElementById("btnExcluir").disabled = false;
+                        document.getElementById("btnIncluir").disabled = true;
+
+                    // Se o usuário não quis alterar ou excluir.
+                    } else {
+
+                        // Chama a função que limpa a tela.
+                        limpar();
+                    }
+
+                // Se não retornar dados da API
+                } else {
+
+                    // Limpa os campos.
+                    document.getElementById("nome").value       = "";
+                    document.getElementById("logradouro").value = "";
+                    document.getElementById("numero").value     = "";
+                    document.getElementById("bairro").value     = "";
+                    document.getElementById("cep").value        = "";
+                    document.getElementById("cidade").value     = "";
+                    document.getElementById("telefone").value   = "";
+                    document.getElementById("email").value      = "";
+
+                    // Habilita o botão Incluir e desabilita o Alterar e Excluir.
+                    document.getElementById("btnIncluir").disabled = false;
+                    document.getElementById("btnAlterar").disabled = true;
+                    document.getElementById("btnExcluir").disabled = true;
+                }
+            } 
+        }
+    }    
+
+    // Função que executa o método PostCliente() da API.
+    function post() {
+
+        // Monta o caminho do controller.
+        var data_file = "http://localhost:65149/api/cliente/";
+
+        // Cria o objeto para fazer a requisição HTTP com a API.
+        var http_request = new XMLHttpRequest();        
+               
+        //Cria um objeto JSON para mandar para a API.
+        var jsonObject = {
+            Codigo   : document.getElementById("codigo").value.toUpperCase(),
+            Nome     : document.getElementById("nome").value.toUpperCase(),
+            Telefone : document.getElementById("telefone").value.toUpperCase(),
+            Email    : document.getElementById("email").value.toUpperCase(),
+            Endereco : {
+                Logradouro : document.getElementById("logradouro").value.toUpperCase(),
+                Numero     : document.getElementById("numero").value.toUpperCase(),
+                Bairro     : document.getElementById("bairro").value.toUpperCase(),
+                Cep        : document.getElementById("cep").value.toUpperCase(),
+                Cidade     : document.getElementById("cidade").value.toUpperCase()
+            }
+        };
+                
+        // Configura a requisição com o método POST, o Controller e determina que vai ser assíncrona.
+        http_request.open("POST", data_file + jsonObject.Codigo, true);
+
+        // Configura o tipo de "Content-type".
+        http_request.setRequestHeader("Content-type", "application/json");
+
+        // Faz a requisição.
+        http_request.send(JSON.stringify(jsonObject));
+    }
+
+    // Função que executa na saída do campo código, quando o código digitado for diferente do código anterior.
+    var codigoAnterior;
+    function codigoBlur() {
+
+        // Verifica se o código digitado é diferente do código anterior.
+        if ((document.getElementById("codigo").value != "") && (document.getElementById("codigo").value != codigoAnterior)) {
+            
+            // Chama a função get() - Faz o GET na API.
+            get();
+
+            // Atualiza a variável que armazena o código anterior.
+            codigoAnterior = document.getElementById("codigo").value;
+        }
+    }
+
+    // Função que Inclui um cliente.
+    function incluir() {
+
+        // Verifica se todos os campos obrigatórios estão preenchidos.
+        if (verificaCamposObrigatorio()) {
+
+            // Confirma com o usuário se deseja incluir o cliente.
+            resposta = confirm("Deseja realmente incluir o cliente \"" + document.getElementById("nome").value.toUpperCase() + "\"?");
+
+            // Verifica se o usuário confirmou.
+            if (resposta) {
+
+                // Chama a função post() - Faz o POST na API. 
+                post();
+
+                // Chama a função limpar() - Limpa a tela.
+                limpar();
+            }
+        }
+    }
+
+    // Função que Alterar um cliente.
+    function alterar() {
+        alert("Botão sem função");
+    }
+
+    // Função que Excluir um cliente.
+    function excluir() {
+        alert("Botão sem função");
+    }
+    
+    // Função que limpa a tela.
+    function limpar() {
+
+        // Limpa os campos.
+        document.getElementById("codigo").value     = "";
+        document.getElementById("nome").value       = "";
+        document.getElementById("logradouro").value = "";
+        document.getElementById("numero").value     = "";
+        document.getElementById("bairro").value     = "";
+        document.getElementById("cep").value        = "";
+        document.getElementById("cidade").value     = "";
+        document.getElementById("telefone").value   = "";
+        document.getElementById("email").value      = "";
+
+        // Desabilita os botões.
+        document.getElementById("btnIncluir").disabled = true;
+        document.getElementById("btnAlterar").disabled = true;
+        document.getElementById("btnExcluir").disabled = true;
+
+        // Limpa o codigo anterior.
+        codigoAnterior = "";
+
+        // Coloca o foco no campo do código.
+        document.getElementById("codigo").focus();
+    }
+
+    // Função que simula a tela fechando.
+    function fechar() {
+
+        // Confirma com o usuário se deseja realmente fechar a aplicação.
+        resposta = confirm("Deseja realmente fechar a aplicação?");
+
+        // Verifica se o usuário confirmou.
+        if (resposta) {
+
+            // Deixa o formulario invisível.
+            formulario.style.visibility = "hidden";
+
+            // Escreve na tela que a aplicação foi encerrada.
+            window.document.write("Aplicação foi encerrada!");
+        } else {
+            document.getElementById("codigo").focus();
+        }
+    }
+
+    // Armazena o campo código na variável.
+    var codigo = document.getElementById("codigo");
+
+    // Chama a função codigoBlur() na saida do campo Código.
+    codigo.addEventListener("blur", codigoBlur);
+        
+    // Armazena o botão Incluir na variável.
+    var btnIncluir = document.getElementById("btnIncluir");
+
+    // Chama a função incluir() no click do botão Incluir
+    btnIncluir.addEventListener("click", incluir);
+
+    // Armazena o botão Alterar na variável.
+    var btnAlterar = document.getElementById("btnAlterar");
+
+    // Chama a função alterar() no click do botão Alterar
+    btnAlterar.addEventListener("click", alterar);
+
+    // Armazena o botão Excluir na variável.
+    var btnExcluir = document.getElementById("btnExcluir");
+
+    // Chama a função excluir() no click do botão Excluir
+    btnExcluir.addEventListener("click", excluir);
+
+    // Armazena o botão Limpar na variável.
+    var btnLimpar = document.getElementById("btnLimpar");
+
+    // Chama a função Limpar() no click do botão Limpar.
+    btnLimpar.addEventListener("click", limpar);
+
+    // Armazena o botão Sair na variável.
+    var btnSair = document.getElementById("btnSair");
+
+    // Chama a função Sair() no click do botão Sair.
+    btnSair.addEventListener("click", fechar);
+
+</script>
+</body>
+</html>
